@@ -15,7 +15,6 @@ class TestSectionsController(testing.TestBase):
         body = self.req(section_id)
         food_action_types = json.loads(body)
         food_action_types = food_action_types['action_types']
-        print food_action_types
         self.assertEqual(4, len(food_action_types))
         self.assertEqual(self.srmock.status, falcon.HTTP_200)
 

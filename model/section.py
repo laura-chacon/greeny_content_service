@@ -2,11 +2,14 @@ import falcon
 import boto
 import os
 from boto.s3.key import Key
+import boto3
 
-s3 = boto.connect_s3(os.environ['ACCESS_KEY_ID'], 
-                    os.environ['SECRET_ACCESS_KEY'])
-content_bucket = s3.get_bucket('greeny-content')
-k = Key(content_bucket)
+client = boto3.client(
+    's3',
+    region_name='eu-west-1',
+    aws_access_key_id=os.environ['ACCESS_KEY_ID'],
+    aws_secret_access_key=os.environ['SECRET_ACCESS_KEY']
+)
 
 class Section:
     def __init__(self, **kwargs):
@@ -20,6 +23,8 @@ class Section:
         return self.display
 
 def read_sections():
-    k.key = 'sections.json'
-    sections = k.get_contents_as_string()
-    return sections
+    response = client.get_object(
+        Bucket='greeny-content',
+        Key='sections.json'
+    )
+    return response['Body'].read()
