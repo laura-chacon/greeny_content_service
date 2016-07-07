@@ -38,7 +38,6 @@ class JSONTranslator(object):
             return
         resp.body = json.dumps(req.context['result'])
 
-
 def add_routes(api):
     api.add_route('/sections', GetSectionsController())
     api.add_route('/sections/{section}/actions', GetActionTypesController())
@@ -51,4 +50,4 @@ def create_api():
     add_routes(api)
     return api
 
-create_api()
+api = create_api()
